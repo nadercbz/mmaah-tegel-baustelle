@@ -36,7 +36,7 @@
 <body>
 <header>
   <h1>mmaah! <span>Tegel</span> · Baustellenbeklebung</h1>
-  <div class="unter">Gorkistraße 1, Tegel Quartier · Coming Soon ab Januar und Mitarbeiter gesucht · Unity Modell nach Studie und Aufmaß · Entwurf 23.11.2026</div>
+  <div class="unter">Gorkistraße 1 · Coming Soon ab Januar und Mitarbeiter gesucht · Unity Modell nach Studie und Aufmaß · Entwurf 23.11.2026</div>
 </header>
 <main>
   <div class="leiste" id="vars"></div>
@@ -54,7 +54,7 @@
     <li><b>Designs aus den alten Baustellenbeklebungen:</b> Heilbronn, Dresden und Oldenburg (Old Design), Monat auf <b>ab Januar</b> geändert.</li>
     <li><b>Regeln aus der Notiz:</b> Texte auf Deutsch, Jobs auf Deutsch, keine koreanischen Schriftzeichen als Text, kein SINCE 2012, EAT KOREAN mit Mund.</li>
     <li><b>Jobs:</b> echter QR Code Jobs aus den alten Assets, Text wie auf den bisherigen Folien.</li>
-    <li><b>Annahme:</b> Laden liegt in der Passage des Tegel Quartier, Profile 6 cm, Höhe der Blende geschätzt. Innen Rohbau.</li>
+    <li><b>Annahme:</b> Haus über dem Laden, Nachbarläden und Straße angenommen, Profile 6 cm, Höhe der Blende geschätzt. Innen Rohbau.</li>
   </ul>
 </main>
 <script>
@@ -64,7 +64,7 @@ const VARS = [
   ["v2", "2 · Dresden Stil", "<b>Wie Dresden.</b> EAT KOREAN in Rot über Feld 1 und 2 auf Weiß mit Schalen und Logo, Feld 3 Jobs mit QR und Mitarbeiterin, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites und Mund, über der Tür das Logo KOREAN STREET FOOD."],
   ["v3", "3 · Old Design", "<b>Wie das alte Oldenburg Design.</b> Feld 1 Jobs, Feld 2 EAT KOREAN mit Chicken Bites und Hand, Feld 3 EAT KOREAN mit Mund, IN TEGEL AB JANUAR, Tür COMING SOON AB JANUAR mit Schale, über der Tür das Logo."],
 ];
-const ANS = [["01_Front","Front"],["02_Schraeg_rechts","Schräg rechts"],["03_Schraeg_links","Schräg links"],["04_Tuer_nah","Tür nah"],["05_Totale_Passage","Totale Passage"],["06_Innen","Innen"]];
+const ANS = [["01_Front","Front"],["02_Schraeg_rechts","Schräg rechts"],["03_Schraeg_links","Schräg links"],["04_Tuer_nah","Tür nah"],["05_Totale_Strasse","Totale Straße"],["06_Innen","Innen"]];
 let v = "v1", a = "01_Front";
 try { v = localStorage.getItem("tg_v") || v; } catch (e) {}
 const vars = document.getElementById("vars"), reihe = document.getElementById("ansichten");
