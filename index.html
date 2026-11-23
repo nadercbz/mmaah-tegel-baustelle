@@ -62,15 +62,16 @@ const VARS = [
   ["v0", "Ohne Folie", "Die Front ohne Beklebung, innen Rohbau, zum Vergleich."],
   ["v1", "1 · Heilbronn Stil", "<b>Wie Heilbronn.</b> Feld 1 Jobs (KOMM INS TEAM!, QR Code, Mitarbeiterin), Feld 2 und 3 weiß mit EAT KOREAN IN TEGEL über beide Felder und zwei Schalen, Tür Logo, Hand mit Chicken Bite und Mund, über der Tür AB JANUAR."],
   ["v2", "2 · Dresden Stil", "<b>Wie Dresden.</b> EAT KOREAN in Rot über Feld 1 und 2 auf Weiß mit Schalen und Logo, Feld 3 Jobs mit QR und Mitarbeiterin, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites und Mund, über der Tür das Logo KOREAN STREET FOOD."],
+  ["v4", "4 · Mitarbeiterin mit Chicken", "<b>Wie V1, aber die Mitarbeiterin im Jobs Feld hält ein Chicken Bite hoch</b> (mit Higgsfield aus dem Originalfoto und dem Chicken Bite erzeugt). Feld 2 und 3 EAT KOREAN IN TEGEL mit Schalen, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites, über der Tür das Logo."],
   ["v3", "3 · Old Design", "<b>Wie das alte Oldenburg Design.</b> Feld 1 Jobs, Feld 2 EAT KOREAN mit Chicken Bites und Hand, Feld 3 EAT KOREAN mit Mund, IN TEGEL AB JANUAR, Tür COMING SOON AB JANUAR mit Schale, über der Tür das Logo."],
 ];
 const ANS = [["01_Front","Front"],["02_Schraeg_rechts","Schräg rechts"],["03_Schraeg_links","Schräg links"],["04_Tuer_nah","Tür nah"],["05_Totale_Strasse","Totale Straße"],["06_Innen","Innen"]];
-let v = "v1", a = "01_Front";
-try { v = localStorage.getItem("tg_v") || v; } catch (e) {}
+let v = "v4", a = "01_Front";
+try { v = localStorage.getItem("tg_v2") || v; } catch (e) {}
 const vars = document.getElementById("vars"), reihe = document.getElementById("ansichten");
 function zeichnen() {
   vars.innerHTML = ""; reihe.innerHTML = "";
-  VARS.forEach(([k, n]) => { const b = document.createElement("button"); b.textContent = n; b.className = k === v ? "an" : ""; b.onclick = () => { v = k; try { localStorage.setItem("tg_v", v); } catch (e) {} zeichnen(); }; vars.appendChild(b); });
+  VARS.forEach(([k, n]) => { const b = document.createElement("button"); b.textContent = n; b.className = k === v ? "an" : ""; b.onclick = () => { v = k; try { localStorage.setItem("tg_v2", v); } catch (e) {} zeichnen(); }; vars.appendChild(b); });
   ANS.forEach(([k, n]) => { const f = document.createElement("figure"); f.className = k === a ? "an" : "";
     f.innerHTML = `<img loading="lazy" src="img/${v}_${k}_m.jpg" alt="${n}"><figcaption>${n}</figcaption>`; f.onclick = () => { a = k; zeichnen(); }; reihe.appendChild(f); });
   document.getElementById("bild").src = `img/${v}_${a}.jpg`;
