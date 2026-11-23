@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mmaah Tegel Baustelle</title>
+<style>
+  :root { --bg:#120c10; --karte:#1d1519; --linie:#3a2a31; --text:#f4ece6; --leise:#b9a8a8; --rot:#F03F2D; --orange:#FF4005; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  header { padding:28px 20px 10px; max-width:1400px; margin:0 auto; }
+  h1 { margin:0; font-size:28px; letter-spacing:-.01em; }
+  h1 span { color:var(--orange); }
+  .unter { color:var(--leise); margin-top:4px; }
+  main { max-width:1400px; margin:0 auto; padding:0 20px 60px; }
+  .leiste { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 12px; position:sticky; top:0; background:var(--bg); padding:10px 0; z-index:2; }
+  .leiste button { background:var(--karte); color:var(--text); border:1px solid var(--linie); border-radius:999px; padding:9px 16px; font:inherit; cursor:pointer; }
+  .leiste button.an { background:var(--orange); border-color:var(--orange); color:#fff; }
+  .gross { position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--linie); background:#000; }
+  .gross img { display:block; width:100%; height:auto; }
+  .info { margin:12px 0 26px; color:var(--leise); max-width:900px; }
+  .info b { color:var(--text); }
+  .reihe { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:10px; }
+  .reihe figure { margin:0; cursor:pointer; border-radius:10px; overflow:hidden; border:2px solid transparent; background:var(--karte); }
+  .reihe figure.an { border-color:var(--orange); }
+  .reihe img { width:100%; display:block; }
+  .reihe figcaption { padding:6px 10px; font-size:13px; color:var(--leise); }
+  h2 { font-size:19px; margin:38px 0 10px; }
+  .zwei { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .zwei img, .flach img { width:100%; border-radius:12px; border:1px solid var(--linie); display:block; background:#fff; }
+  ul { padding-left:18px; color:var(--leise); } li { margin:4px 0; } li b { color:var(--text); }
+  @media (max-width:760px) { .zwei { grid-template-columns:1fr; } h1 { font-size:22px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>mmaah! <span>Tegel</span> · Baustellenbeklebung</h1>
+  <div class="unter">Gorkistraße 1, Tegel Quartier · Coming Soon ab Januar und Mitarbeiter gesucht · Unity Modell nach Studie und Aufmaß · Entwurf 23.11.2026</div>
+</header>
+<main>
+  <div class="leiste" id="vars"></div>
+  <div class="gross"><img id="bild" alt="Render der Ladenfront Tegel"></div>
+  <div class="info" id="text"></div>
+  <div class="reihe" id="ansichten"></div>
+
+  <h2>Folien flach (Druckmaß, 1 px = 1 mm)</h2>
+  <div class="flach"><img id="flach" alt="Alle Scheiben flach"></div>
+
+  <h2>Grundlage</h2>
+  <div class="zwei"><img src="img/vorlage_mass.jpg" alt="Tegel Maßzeichnung"><img src="img/vorlage_studie.jpg" alt="Studie Außenansicht"></div>
+  <ul>
+    <li><b>Maße aus dem Aufmaß:</b> Feld 1 bis 3 je 118 × 358 cm, Tür 102 × 247,5 cm, Feld über der Tür 106,5 × 90 cm.</li>
+    <li><b>Designs aus den alten Baustellenbeklebungen:</b> Heilbronn, Dresden und Oldenburg (Old Design), Monat auf <b>ab Januar</b> geändert.</li>
+    <li><b>Regeln aus der Notiz:</b> Texte auf Deutsch, Jobs auf Deutsch, keine koreanischen Schriftzeichen als Text, kein SINCE 2012, EAT KOREAN mit Mund.</li>
+    <li><b>Jobs:</b> echter QR Code Jobs aus den alten Assets, Text wie auf den bisherigen Folien.</li>
+    <li><b>Annahme:</b> Laden liegt in der Passage des Tegel Quartier, Profile 6 cm, Höhe der Blende geschätzt. Innen Rohbau.</li>
+  </ul>
+</main>
+<script>
+const VARS = [
+  ["v0", "Ohne Folie", "Die Front ohne Beklebung, innen Rohbau, zum Vergleich."],
+  ["v1", "1 · Heilbronn Stil", "<b>Wie Heilbronn.</b> Feld 1 Jobs (KOMM INS TEAM!, QR Code, Mitarbeiterin), Feld 2 und 3 weiß mit EAT KOREAN IN TEGEL über beide Felder und zwei Schalen, Tür Logo, Hand mit Chicken Bite und Mund, über der Tür AB JANUAR."],
+  ["v2", "2 · Dresden Stil", "<b>Wie Dresden.</b> EAT KOREAN in Rot über Feld 1 und 2 auf Weiß mit Schalen und Logo, Feld 3 Jobs mit QR und Mitarbeiterin, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites und Mund, über der Tür das Logo KOREAN STREET FOOD."],
+  ["v3", "3 · Old Design", "<b>Wie das alte Oldenburg Design.</b> Feld 1 Jobs, Feld 2 EAT KOREAN mit Chicken Bites und Hand, Feld 3 EAT KOREAN mit Mund, IN TEGEL AB JANUAR, Tür COMING SOON AB JANUAR mit Schale, über der Tür das Logo."],
+];
+const ANS = [["01_Front","Front"],["02_Schraeg_rechts","Schräg rechts"],["03_Schraeg_links","Schräg links"],["04_Tuer_nah","Tür nah"],["05_Totale_Passage","Totale Passage"],["06_Innen","Innen"]];
+let v = "v1", a = "01_Front";
+try { v = localStorage.getItem("tg_v") || v; } catch (e) {}
+const vars = document.getElementById("vars"), reihe = document.getElementById("ansichten");
+function zeichnen() {
+  vars.innerHTML = ""; reihe.innerHTML = "";
+  VARS.forEach(([k, n]) => { const b = document.createElement("button"); b.textContent = n; b.className = k === v ? "an" : ""; b.onclick = () => { v = k; try { localStorage.setItem("tg_v", v); } catch (e) {} zeichnen(); }; vars.appendChild(b); });
+  ANS.forEach(([k, n]) => { const f = document.createElement("figure"); f.className = k === a ? "an" : "";
+    f.innerHTML = `<img loading="lazy" src="img/${v}_${k}_m.jpg" alt="${n}"><figcaption>${n}</figcaption>`; f.onclick = () => { a = k; zeichnen(); }; reihe.appendChild(f); });
+  document.getElementById("bild").src = `img/${v}_${a}.jpg`;
+  document.getElementById("text").innerHTML = VARS.find(x => x[0] === v)[2];
+  document.getElementById("flach").src = `img/flach_${v === "v0" ? "v1" : v}.jpg`;
+}
+zeichnen();
+</script>
+</body>
+</html>
