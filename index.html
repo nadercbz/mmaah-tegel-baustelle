@@ -17,6 +17,12 @@
   .leiste { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 12px; position:sticky; top:0; background:var(--bg); padding:10px 0; z-index:2; }
   .leiste button { background:var(--karte); color:var(--text); border:1px solid var(--linie); border-radius:999px; padding:9px 16px; font:inherit; cursor:pointer; }
   .leiste button.an { background:var(--orange); border-color:var(--orange); color:#fff; }
+  .leiste button.archiv.offen { border-color:var(--orange); color:var(--orange); }
+  .archivreihe { display:none; flex-wrap:wrap; gap:8px; margin:-4px 0 14px; padding:12px; border:1px solid var(--linie); border-radius:14px; background:var(--karte); }
+  .archivreihe.offen { display:flex; }
+  .archivreihe .titel { width:100%; color:var(--leise); font-size:13px; }
+  .archivreihe button { background:var(--bg); color:var(--text); border:1px solid var(--linie); border-radius:999px; padding:7px 14px; font:inherit; font-size:14px; cursor:pointer; }
+  .archivreihe button.an { background:var(--orange); border-color:var(--orange); color:#fff; }
   .gross { position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--linie); background:#000; }
   .gross img { display:block; width:100%; height:auto; }
   .info { margin:12px 0 26px; color:var(--leise); max-width:900px; }
@@ -40,6 +46,7 @@
 </header>
 <main>
   <div class="leiste" id="vars"></div>
+  <div class="archivreihe" id="archiv"></div>
   <div class="gross"><img id="bild" alt="Render der Ladenfront Tegel"></div>
   <div class="info" id="text"></div>
   <div class="reihe" id="ansichten"></div>
@@ -60,22 +67,29 @@
 </main>
 <script>
 const VARS = [
-  ["v0", "Ohne Folie", "Die Front ohne Beklebung, innen Rohbau, zum Vergleich."],
   ["v7", "7 · Hallo Tegel (Korrektur 26.11.)", "<b>Hallo Tegel mit den Änderungen vom 26.11.2026.</b> HALLO, TEGEL!, EAT KOREAN. als Blocktext gleich breit, Jobs ebenso, Mitarbeiterin größer und sauber freigestellt, QR neben dem Text, weißes Wallpaper raus. Food Visual aus V6 größer, nur auf den beiden mittleren Scheiben, Wings gegen die echten Mmaah Bites mit Soy Garlic Soße, Sesam und Schnittlauch getauscht. Gelber Sticker COMING SOON (ohne Datum) unten rechts auf der rechten Mittelscheibe, Tür: oben Wappen 먹자 mit Mund, darunter Blocktext KOREAN FRIED CHICKEN (weiß) und KOREAN BBQ ON RICE (rot). Unten links Hinweis Abbildung KI-generiert."],
   ["v6", "6 · Hallo Tegel (Korrektur 25.11.)", "<b>Hallo Tegel mit den Änderungen vom 25.11.2026.</b> Koreanisch 테겔 안녕! neben EAT KOREAN, neues Food Visual mit Soy Garlic Chicken Bites und dem Special BBQ Reis (ohne Kartoffelscheiben), Mitarbeiterin im Jobs Feld hält ein Chicken Bite, Tür EAT KOREAN SINCE 2012 mit Mund, Störer Coming Soon kleiner."],
   ["v5", "5 · Hallo Tegel", "<b>HALLO TEGEL! EAT KOREAN.</b> Großes Food Visual über Feld 2 und 3 (mit Higgsfield aus Schale, Bites Box und BBQ Reis erzeugt), Coming Soon Stempel AB JANUAR schräg auf der Tür, Logo darüber. Links bleibt das Jobs Feld mit QR Code und Mitarbeiterin."],
-  ["v1", "1 · Heilbronn Stil", "<b>Wie Heilbronn.</b> Feld 1 Jobs (KOMM INS TEAM!, QR Code, Mitarbeiterin), Feld 2 und 3 Aubergine mit EAT KOREAN IN TEGEL über beide Felder und zwei Schalen, Tür Logo, Hand mit Chicken Bite und Mund, über der Tür AB JANUAR."],
-  ["v2", "2 · Dresden Stil", "<b>Wie Dresden.</b> EAT KOREAN über Feld 1 und 2 auf Aubergine mit Schalen und Logo, Feld 3 Jobs mit QR und Mitarbeiterin, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites und Mund, über der Tür das Logo KOREAN STREET FOOD."],
   ["v4", "4 · Mitarbeiterin mit Chicken", "<b>Wie V1, aber die Mitarbeiterin im Jobs Feld hält ein Chicken Bite hoch</b> (mit Higgsfield aus dem Originalfoto und dem Chicken Bite erzeugt). Feld 2 und 3 EAT KOREAN IN TEGEL mit Schalen, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites, über der Tür das Logo."],
   ["v3", "3 · Old Design", "<b>Wie das alte Oldenburg Design.</b> Feld 1 Jobs, Feld 2 EAT KOREAN mit Chicken Bites und Hand, Feld 3 EAT KOREAN mit Mund, IN TEGEL AB JANUAR, Tür COMING SOON AB JANUAR mit Schale, über der Tür das Logo."],
+  ["v2", "2 · Dresden Stil", "<b>Wie Dresden.</b> EAT KOREAN über Feld 1 und 2 auf Aubergine mit Schalen und Logo, Feld 3 Jobs mit QR und Mitarbeiterin, Tür COMING SOON AB JANUAR mit Crispy Chicken Bites und Mund, über der Tür das Logo KOREAN STREET FOOD."],
+  ["v1", "1 · Heilbronn Stil", "<b>Wie Heilbronn.</b> Feld 1 Jobs (KOMM INS TEAM!, QR Code, Mitarbeiterin), Feld 2 und 3 Aubergine mit EAT KOREAN IN TEGEL über beide Felder und zwei Schalen, Tür Logo, Hand mit Chicken Bite und Mund, über der Tür AB JANUAR."],
+  ["v0", "Ohne Folie", "Die Front ohne Beklebung, innen Rohbau, zum Vergleich."],
 ];
 const ANS = [["01_Front","Front"],["02_Schraeg_rechts","Schräg rechts"],["03_Schraeg_links","Schräg links"],["04_Tuer_nah","Tür nah"],["05_Totale_Strasse","Totale Straße"],["06_Innen","Innen"]];
-let v = "v7", a = "01_Front";
-try { v = localStorage.getItem("tg_v7") || v; } catch (e) {}
+// Nader 26.11.2026: vorne nur V7, alle anderen Versionen unter Archiv
+const AKTUELL = "v7";
+let v = AKTUELL, a = "01_Front", archivOffen = false;
 const vars = document.getElementById("vars"), reihe = document.getElementById("ansichten");
 function zeichnen() {
   vars.innerHTML = ""; reihe.innerHTML = "";
-  VARS.forEach(([k, n]) => { const b = document.createElement("button"); b.textContent = n; b.className = k === v ? "an" : ""; b.onclick = () => { v = k; try { localStorage.setItem("tg_v7", v); } catch (e) {} zeichnen(); }; vars.appendChild(b); });
+  const arch = document.getElementById("archiv"); arch.innerHTML = '<div class="titel">Archiv · frühere Versionen</div>';
+  const knopf = (k, n, ziel) => { const b = document.createElement("button"); b.textContent = n; b.className = k === v ? "an" : ""; b.onclick = () => { v = k; zeichnen(); }; ziel.appendChild(b); };
+  VARS.forEach(([k, n]) => { if (k === AKTUELL) knopf(k, n, vars); else knopf(k, n, arch); });
+  const ab = document.createElement("button"); ab.textContent = archivOffen ? "Archiv ▴" : "Archiv ▾";
+  ab.className = "archiv" + (archivOffen ? " offen" : "") + (v !== AKTUELL ? " an" : "");
+  ab.onclick = () => { archivOffen = !archivOffen; zeichnen(); }; vars.appendChild(ab);
+  arch.classList.toggle("offen", archivOffen);
   ANS.forEach(([k, n]) => { const f = document.createElement("figure"); f.className = k === a ? "an" : "";
     f.innerHTML = `<img loading="lazy" src="img/${v}_${k}_m.jpg" alt="${n}"><figcaption>${n}</figcaption>`; f.onclick = () => { a = k; zeichnen(); }; reihe.appendChild(f); });
   document.getElementById("bild").src = `img/${v}_${a}.jpg`;
